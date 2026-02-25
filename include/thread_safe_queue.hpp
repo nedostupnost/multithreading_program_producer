@@ -19,6 +19,10 @@ namespace queue
 
         ThreadSafeQueue& operator=(const ThreadSafeQueue&) = delete;
 
+        ThreadSafeQueue(ThreadSafeQueue&&) = delete;
+
+        ThreadSafeQueue& operator=(ThreadSafeQueue&&) = delete;
+
         void Push(T value)
         {
             {

@@ -11,6 +11,14 @@ namespace processing
 
         ~Validator() = default;
 
+        Validator(const Validator&) = delete;
+
+        Validator& operator=(const Validator&) = delete;
+
+        Validator(Validator&&) = delete;
+
+        Validator& operator=(Validator&&) = delete;
+
         void Validate(const std::string& input) const;
 
         private:
