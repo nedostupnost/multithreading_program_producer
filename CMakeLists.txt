@@ -1,15 +1,18 @@
-cmake_minimum_required(VERSION 3.16)
-project(ficha-1)
+cmake_minimum_required(VERSION 3.10)
+
+project(ThreadSafeValidator CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include_directories(include)
+find_package(Threads REQUIRED)
 
-add_executable(ficha-1
+set(SOURCES
     src/main.cpp
+    src/application.cpp
     src/validator.cpp
 )
 
-find_package(Threads REQUIRED)
-target_link_libraries(ficha-1 Threads::Threads)
+add_executable(app ${SOURCES})
+
+target_link_libraries(app PRIVATE Threads::Threads)

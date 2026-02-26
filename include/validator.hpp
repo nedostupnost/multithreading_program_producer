@@ -3,22 +3,31 @@
 
 namespace processing
 {
-    class Validator
+    class StringValidator
     {
         public:
-        
-        Validator() = default;
+        StringValidator() = default;
+        virtual ~StringValidator() = default;
 
-        ~Validator() = default;
-
-        void Validate(const std::string& input) const;
-
-        private:
-
+        protected:
         bool IsNumber(const std::string& input) const;
+    };
+    class MathValidator
+    {
+        public:
+        MathValidator() = default;
+        virtual ~MathValidator() = default;
 
+        protected:
         bool IsThreeDigit(int value) const;
-        
         bool IsDivisibleByThree(int value) const;
+    };
+    class Validator : public StringValidator, public MathValidator
+    {
+        public:
+        Validator() = default;
+        ~Validator() override = default;
+        
+        bool Validate(const std::string& input) const;
     };
 };
