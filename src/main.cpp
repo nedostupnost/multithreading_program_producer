@@ -54,5 +54,5 @@ int main()
     std::thread consumer(signals::consumer_thread, std::ref(thread_queue));
 
     producer.join();
-    consumer.join(); // popa
+    consumer.join();
 }

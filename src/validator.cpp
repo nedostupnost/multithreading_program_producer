@@ -34,7 +34,7 @@ namespace processing
             return false;
         }
 
-        for (int i = start_index; i < input.size(); ++i)
+        for (size_t i = start_index; i < input.size(); ++i)
         {
             if (!std::isdigit(input[i]))
             {

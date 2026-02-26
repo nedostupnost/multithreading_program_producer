@@ -10,18 +10,6 @@ namespace queue
     class ThreadSafeQueue
     {
         public:
-        
-        ThreadSafeQueue() = default;
-
-        ~ThreadSafeQueue() = default;
-
-        ThreadSafeQueue(const ThreadSafeQueue&) = delete;
-
-        ThreadSafeQueue& operator=(const ThreadSafeQueue&) = delete;
-
-        ThreadSafeQueue(ThreadSafeQueue&&) = delete;
-
-        ThreadSafeQueue& operator=(ThreadSafeQueue&&) = delete;
 
         void Push(T value)
         {
@@ -36,7 +24,7 @@ namespace queue
         {
             std::unique_lock<std::mutex> lock(mutex);
             condition.wait(lock, [this] { return !queue.empty(); });
-            T value = std::move(queue.front());
+            T&& value = std::move(queue.front());
             queue.pop();
             return value;
         }
