@@ -36,4 +36,4 @@ namespace queue
         mutable std::mutex mutex;
         std::condition_variable condition;
     };
-}
+};

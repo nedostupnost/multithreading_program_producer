@@ -50,21 +50,21 @@ namespace processing
     {
         return value % 3 == 0;
     }
-    bool Validator::Validate(const std::string& input) const
+    ValidationResult Validator::Validate(const std::string& input) const
     {
         if (!IsNumber(input))
         {
-            return false;
+            return ValidationResult::NotANumber;
         }
 
         const int value = std::stoi(input);
 
         if (IsThreeDigit(value) and IsDivisibleByThree(value))
         {
-            return true;
+            return ValidationResult::Valid;
         }
 
-        return false;
+        return ValidationResult::InvalidMath;
     }
 
 }

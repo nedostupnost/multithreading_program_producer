@@ -41,7 +41,15 @@ namespace app
                 break;
             }
 
-            bool is_valid = validator.Validate(value);
+            processing::ValidationResult result = validator.Validate(value);
+            if (result == processing::ValidationResult::NotANumber)
+            {
+                std::cout << "0" << std::endl;
+            }
+            else if (result == processing::ValidationResult::Valid)
+            {
+                std::cout << value << std::endl;
+            }
         }
     }
 }

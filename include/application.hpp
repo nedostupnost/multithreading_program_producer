@@ -3,6 +3,7 @@
 #include "validator.hpp"
 #include <string>
 #include <string_view>
+#include <mutex>
 
 namespace app
 {
@@ -21,4 +22,4 @@ namespace app
         static constexpr std::string_view QUIT_COMMAND = "quit";
         static constexpr std::string_view STOP_SIGNAL = "stop";
     };
-}
+};

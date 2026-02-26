@@ -3,6 +3,13 @@
 
 namespace processing
 {
+    enum class ValidationResult
+    {
+        NotANumber,
+        InvalidMath,
+        Valid
+    };
+    
     class StringValidator
     {
         public:
@@ -28,6 +35,6 @@ namespace processing
         Validator() = default;
         ~Validator() override = default;
         
-        bool Validate(const std::string& input) const;
+        ValidationResult Validate(const std::string& input) const;
     };
 };
