@@ -7,19 +7,7 @@ namespace digits
     {
         public:
 
-        DigitProcessor() = default;
-
-        ~DigitProcessor() = default;
-
-        DigitProcessor(const DigitProcessor&) = delete;
-
-        DigitProcessor& operator=(const DigitProcessor&) = delete;
-
-        DigitProcessor(DigitProcessor&&) = delete;
-
-        DigitProcessor& operator=(DigitProcessor&&) = delete;
-
-        void Process(int numver) const;
+        void Process(int number) const;
 
         private:
 
