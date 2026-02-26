@@ -1,18 +1,28 @@
 #include "../include/application.hpp"
 #include <iostream>
 #include <thread>
+#include <memory>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <unistd.h>
 
 namespace app
 {
-    void Application::Run()
+    ClientApplication* ClientApplication::GetInstance(const std::string& server_ip, int server_port)
     {
-        std::thread producer(&Application::ProducerTask, this);
-        std::thread consumer(&Application::ConsumerTask, this);
+        static ClientApplication instance(server_ip, server_port);
+        return &instance;
+    }
+    ClientApplication::ClientApplication(const std::string& server_ip, int server_port) : m_server_ip(server_ip), m_server_port(server_port) {}
+    void ClientApplication::Run()
+    {
+        std::thread producer(&ClientApplication::ProducerTask, this);
+        std::thread consumer(&ClientApplication::ConsumerTask, this);
 
         producer.join();
         consumer.join();
     }
-    void Application::ProducerTask()
+    void ClientApplication::ProducerTask()
     {
         std::string input;
         while(true)
@@ -28,7 +38,7 @@ namespace app
             m_queue.Push(input);
         }
     }
-    void Application::ConsumerTask()
+    void ClientApplication::ConsumerTask()
     {
         std::unique_ptr<processing::Validator> validator = std::make_unique<processing::PrimaryValidator>();
 
