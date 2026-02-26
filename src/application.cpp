@@ -30,7 +30,7 @@ namespace app
     }
     void Application::ConsumerTask()
     {
-        processing::Validator validator;
+        std::unique_ptr<processing::Validator> validator = std::make_unique<processing::PrimaryValidator>();
 
         while(true)
         {
@@ -41,7 +41,7 @@ namespace app
                 break;
             }
 
-            processing::ValidationResult result = validator.Validate(value);
+            processing::ValidationResult result = validator->Validate(value);
             if (result == processing::ValidationResult::NotANumber)
             {
                 std::cout << "0" << std::endl;
