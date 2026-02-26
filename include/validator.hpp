@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <memory>
 
 namespace processing
 {
@@ -9,32 +10,39 @@ namespace processing
         InvalidMath,
         Valid
     };
-    
-    class StringValidator
+    class Validator
     {
         public:
-        StringValidator() = default;
-        virtual ~StringValidator() = default;
+        virtual ~Validator() = default;
+        virtual ValidationResult Validate(const std::string& input) const = 0;
+    };    
+    class StringValidator : public Validator
+    {
+        public:
+        ValidationResult Validate(const std::string& input) const override;
 
-        protected:
+        private:
         bool IsNumber(const std::string& input) const;
     };
-    class MathValidator
+    class MathValidator : public Validator
     {
         public:
-        MathValidator() = default;
-        virtual ~MathValidator() = default;
-
-        protected:
+        ValidationResult Validate(const std::string& input) const override;
+        
+        private:
         bool IsThreeDigit(int value) const;
         bool IsDivisibleByThree(int value) const;
     };
-    class Validator : public StringValidator, public MathValidator
+
+    class PrimaryValidator : public Validator
     {
         public:
-        Validator() = default;
-        ~Validator() override = default;
-        
-        ValidationResult Validate(const std::string& input) const;
+        PrimaryValidator();
+        ValidationResult Validate(const std::string& input) const override;
+
+        private:
+        std::unique_ptr<Validator> m_string_validator;
+        std::unique_ptr<Validator> m_math_validator;
     };
+
 };
