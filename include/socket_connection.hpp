@@ -3,29 +3,17 @@
 
 namespace socket_connection
 {
-    constexpr int PORT = 8080;
-    const std::string HOST = "127.0.0.1";
-    const std::string STOP_SIGNAL = "__stop__";
+    inline constexpr int PORT = 8080;
+    inline const std::string HOST = "127.0.0.1";
+    inline const std::string STOP_SIGNAL = "__stop__";
 
     class Server
     {
         public:
 
-        Server();
-
-        ~Server();
-
-        Server(const Server&) = delete;
-
-        Server& operator=(const Server&) = delete;
-
-        Server(Server&&) = delete;
-
-        Server& operator=(Server&&) = delete;
-
         void AcceptConnection();
 
-        std::string recive() const;
+        std::string receive() const;
         
         void close();
 
