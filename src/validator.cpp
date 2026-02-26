@@ -41,6 +41,14 @@ namespace processing
         return true;
 
     }
+    ValidationResult StringValidator::Validate(const std::string& input) const
+    {
+        if (!IsNumber(input))
+        {
+            return ValidationResult::NotANumber;
+        }
+        return ValidationResult::Valid;
+    }
     bool MathValidator::IsThreeDigit(int value) const
     {
         const int absolute_value = std::abs(value);
@@ -50,21 +58,28 @@ namespace processing
     {
         return value % 3 == 0;
     }
-    ValidationResult Validator::Validate(const std::string& input) const
+    ValidationResult MathValidator::Validate(const std::string& input) const
     {
-        if (!IsNumber(input))
-        {
-            return ValidationResult::NotANumber;
-        }
-
         const int value = std::stoi(input);
 
         if (IsThreeDigit(value) and IsDivisibleByThree(value))
         {
             return ValidationResult::Valid;
         }
-
         return ValidationResult::InvalidMath;
     }
-
+    PrimaryValidator::PrimaryValidator()
+    {
+        m_string_validator = std::make_unique<StringValidator>();
+        m_math_validator = std::make_unique<MathValidator>();
+    }
+    ValidationResult PrimaryValidator::Validate(const std::string& input) const
+    {
+        ValidationResult str_result = m_string_validator->Validate(input);
+        if (str_result != ValidationResult::Valid)
+        {
+            return str_result;
+        }
+        return m_math_validator->Validate(input);
+    }
 }
