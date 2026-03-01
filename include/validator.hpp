@@ -44,5 +44,4 @@ namespace processing
         std::unique_ptr<Validator> m_string_validator;
         std::unique_ptr<Validator> m_math_validator;
     };
-
 };

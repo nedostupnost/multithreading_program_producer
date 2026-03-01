@@ -9,31 +9,40 @@ namespace queue
     class ThreadSafeQueue
     {
         public:
-        void Push(T value)
+        void Push(const T& value)
         {
             {
-                std::lock_guard<std::mutex> lock(mutex);
-                queue.push(std::move(value));
+                std::lock_guard<std::mutex> lock(m_mutex);
+                m_queue.push(std::move(value));
             }
-            condition.notify_one();
+            m_cv.notify_one();
+        }
+        void Push(T&& value)
+        {
+            {
+                std::lock_guard<std::mutex> lock(m_mutex);
+                m_queue.push(std::move(value));
+            }
+            m_cv.notify_one();
         }
         T Pop()
         {
-            std::unique_lock<std::mutex> lock(mutex);
-            condition.wait(lock, [this] { return !queue.empty(); });
-            T&& value = std::move(queue.front());
-            queue.pop();
+            std::unique_lock<std::mutex> lock(m_mutex);
+            m_cv.wait(lock, [this] { return !m_queue.empty(); });
+
+            T value = std::move(m_queue.front());
+            m_queue.pop();
             return value;
         }
         bool IsEmpty() const
         {
-            std::lock_guard<std::mutex> lock(mutex);
-            return queue.empty();
+            std::lock_guard<std::mutex> lock(m_mutex);
+            return m_queue.empty();
         }
 
         private:
-        std::queue<T> queue;
-        mutable std::mutex mutex;
-        std::condition_variable condition;
+        std::queue<T> m_queue;
+        mutable std::mutex m_mutex;
+        std::condition_variable m_cv;
     };
 };
